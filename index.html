@@ -207,7 +207,7 @@
       { id: 24, type: 'PHONICS', label: '파닉스 첫소리 구별', icon: '🧩', prompt: "들려주는 소리를 잘 듣고, 단어의 첫소리 철자 기호를 골라봅시다! 🎧", visualEmoji: '❓🎧', options: ["c", "g"], answer: "c", audioText: "cat", koreanQuestion: "이 단어의 첫소리 글자는 무엇일까?" },
       { id: 25, type: 'CHOICE', label: '알맞은 단어 고르기', icon: '🍦', prompt: "시원하고 달콤한 그림에 잘 어울리는 단어 카드를 골라보자! 🍦", visualEmoji: '🍦', options: ["ice cream", "soup"], answer: "ice cream" },
       { id: 26, type: 'PHONICS', label: '파닉스 첫소리 구별', icon: '🧩', prompt: "들려주는 소리를 잘 듣고, 단어의 첫소리 철자 기호를 골라봅시다! 🎧", visualEmoji: '❓🎧', options: ["d", "t"], answer: "d", audioText: "duck", koreanQuestion: "이 단어의 첫소리 글자는 무엇일까?" },
-      { id: 27, type: 'WRITING', label: '알맞은 단어 쓰기', icon: 'FIG_SVG', prompt: "학습지에 그림 속 무화과의 영어 철자를 직접 쓰고 확인해봅시다! 무화과 모양의 귀여운 아이콘 메달 🍈", visualEmoji: 'FIG_SVG', expectedAnswers: ["fig"], audioText: "Write fig", koreanQuestion: "그림 속 과일 이름을 학습지에 써보자!", textToDraw: "fig", labelGuide: "그림 속 과일의 올바른 영어 철자는?" },
+      { id: 27, type: 'WRITING', label: '알맞은 단어 쓰기', icon: 'FIG_SVG', prompt: "학습지에 그림 속 무화과의 영어 철자가 직접 쓰고 확인해봅시다! 무화과 모양의 귀여운 아이콘 메달 🍈", visualEmoji: 'FIG_SVG', expectedAnswers: ["fig"], audioText: "Write fig", koreanQuestion: "그림 속 과일 이름을 학습지에 써보자!", textToDraw: "fig", labelGuide: "그림 속 과일의 올바른 영어 철자는?" },
       { id: 28, type: 'FINISH', label: '도착', icon: '🏆', color: 'bg-rose-500 border-rose-600 text-white font-black' }
     ];
 
@@ -2323,7 +2323,7 @@
               <div className="bg-white text-slate-800 rounded-[28px] p-6 max-w-sm w-full border-4 border-amber-400 shadow-2xl text-center">
                 <span className="text-5xl">🔑</span>
                 <h3 className="text-xl font-black text-amber-950 mt-3">교사용 관제소 진입</h3>
-                <p className="text-xs text-slate-500 font-medium mt-1">대시보드를 연동하기 위해 비밀번호(1234)를 입력하세요.</p>
+                <p className="text-xs text-slate-500 font-medium mt-1">대시보드를 연동하기 위해 관리자 비밀번호를 입력하세요.</p>
                 
                 <form onSubmit={handlePasswordVerify} className="flex flex-col gap-3 mt-4">
                   <input 
