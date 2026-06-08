@@ -192,7 +192,7 @@
       { id: 9, type: 'WRITING', label: '단어 쓰고 질문 답하기', icon: '🍕', prompt: "학습지에 그림 속 음식의 영어 철자를 직접 쓰고 확인해봅시다! 🍕", visualEmoji: '🍕', expectedAnswers: ["pizza"], audioText: "Write pizza", koreanQuestion: "그림 속 음식 이름을 학습지에 써보자!", textToDraw: "pizza", labelGuide: "그림 속 음식의 올바른 영어 철자는?" },
       { id: 10, type: 'CHOICE', label: '알맞은 단어 고르기', icon: '🚪', prompt: "문을 열어달라고 지시하는 올바른 단어를 골라보자! 🚪", visualEmoji: '🚪🏃‍♂️', options: ["open", "close"], answer: "open" },
       { id: 11, type: 'ADVANCE', label: '앞으로 2칸', icon: '🚀', color: 'bg-emerald-400 border-emerald-500 text-emerald-950 font-black' },
-      { id: 12, type: 'ALPHABET_SONG', label: '알파벳 노래 부르기', icon: '🎵', prompt: "수업시간에 자주 불렀던 'The Alphabet & Sound Song'을 영상을 보며 다 같이 신나게 따라 불러 보아요! 🎤", visualEmoji: '🎵🎤' },
+      { id: 12, type: 'CHOICE', label: '동물 더하기 미션', icon: '🦁', prompt: "사자와 얼룩말은 모두 합쳐서 몇 마리일까요? 그림을 보고 알맞은 숫자 영단어를 골라보자! 🦁🦓", visualEmoji: '🦁🦁 + 🦓🦓', options: ["three", "four", "five"], answer: "four", audioText: "How many lions and zebras are there together?", koreanQuestion: "사자와 얼룩말은 모두 합쳐 몇 마리일까?" },
       { id: 13, type: 'PHONICS', label: '파닉스 첫소리 구별', icon: '🧩', prompt: "들려주는 소리를 잘 듣고, 단어의 첫소리 철자 기호를 골라봅시다! 🎧", visualEmoji: '❓🎧', options: ["p", "b"], answer: "p", audioText: "pig", koreanQuestion: "이 단어의 첫소리 글자는 무엇일까?" },
       { id: 14, type: 'SKIP', label: '한 번 쉬세요', icon: '💤', color: 'bg-sky-400 border-sky-500 text-sky-950 font-black' },
       { id: 15, type: 'CHOICE', label: '알맞은 단어 고르기', icon: '🐄', prompt: "그림에 어울리는 올바른 단어 카드를 골라보자! 🐄", visualEmoji: '🐄', options: ["cow", "cat"], answer: "cow" },
@@ -207,7 +207,7 @@
       { id: 24, type: 'PHONICS', label: '파닉스 첫소리 구별', icon: '🧩', prompt: "들려주는 소리를 잘 듣고, 단어의 첫소리 철자 기호를 골라봅시다! 🎧", visualEmoji: '❓🎧', options: ["c", "g"], answer: "c", audioText: "cat", koreanQuestion: "이 단어의 첫소리 글자는 무엇일까?" },
       { id: 25, type: 'CHOICE', label: '알맞은 단어 고르기', icon: '🍦', prompt: "시원하고 달콤한 그림에 잘 어울리는 단어 카드를 골라보자! 🍦", visualEmoji: '🍦', options: ["ice cream", "soup"], answer: "ice cream" },
       { id: 26, type: 'PHONICS', label: '파닉스 첫소리 구별', icon: '🧩', prompt: "들려주는 소리를 잘 듣고, 단어의 첫소리 철자 기호를 골라봅시다! 🎧", visualEmoji: '❓🎧', options: ["d", "t"], answer: "d", audioText: "duck", koreanQuestion: "이 단어의 첫소리 글자는 무엇일까?" },
-      { id: 27, type: 'WRITING', label: '알맞은 단어 쓰기', icon: 'FIG_SVG', prompt: "학습지에 그림 속 무화과의 영어 철자가 직접 쓰고 확인해봅시다! 무화과 모양의 귀여운 아이콘 메달 🍈", visualEmoji: 'FIG_SVG', expectedAnswers: ["fig"], audioText: "Write fig", koreanQuestion: "그림 속 과일 이름을 학습지에 써보자!", textToDraw: "fig", labelGuide: "그림 속 과일의 올바른 영어 철자는?" },
+      { id: 27, type: 'WRITING', label: '알맞은 단어 쓰기', icon: 'FIG_SVG', prompt: "학습지에 그림 속 무화과의 영어 철자를 직접 쓰고 확인해봅시다! 무화과 모양의 귀여운 아이콘 메달 🍈", visualEmoji: 'FIG_SVG', expectedAnswers: ["fig"], audioText: "Write fig", koreanQuestion: "그림 속 과일 이름을 학습지에 써보자!", textToDraw: "fig", labelGuide: "그림 속 과일의 올바른 영어 철자는?" },
       { id: 28, type: 'FINISH', label: '도착', icon: '🏆', color: 'bg-rose-500 border-rose-600 text-white font-black' }
     ];
 
@@ -388,7 +388,7 @@
           const auth = window.FbAuth.getAuth(app);
           
           const initAuth = async () => {
-            // Vercel 환경용 순수 익명 로그인 활성화
+            // Vercel 환경용 익명 로그인 활성화
             await window.FbAuth.signInAnonymously(auth);
           };
           initAuth();
@@ -790,6 +790,19 @@
         }, 250);
       };
 
+      // AI의 턴 진행 완료 후 플레이어 권한 회수 마스터 엔진
+      const advanceTurnAfterAI = () => {
+        setCurrentQuestion(null);
+        if (playerSkipNext) {
+          setPlayerSkipNext(false);
+          setTurn('AI');
+          addStudentLog(`🤖 AI 친구의 연속 공격! 한번 더 주사위를 던집니다.`);
+          setTimeout(aiTakeTurn, 1500);
+        } else {
+          setTurn('PLAYER');
+        }
+      };
+
       const handleLanding = (pos, entity) => {
         const tile = EXPEDITION_TILES[pos];
 
@@ -869,13 +882,11 @@
                 const answer = tile.expectedAnswers ? tile.expectedAnswers[0] : (tile.answer || "Yes!");
                 speakText(answer);
                 setTimeout(() => {
-                  setCurrentQuestion(null);
                   advanceTurnAfterAI();
                 }, 1800);
               } else {
                 speakText("I am not sure...");
                 setTimeout(() => {
-                  setCurrentQuestion(null);
                   advanceTurnAfterAI();
                 }, 1800);
               }
@@ -1640,7 +1651,7 @@
                                   <span>{step1Percent}%</span>
                                 </div>
                                 <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                                  <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${step1Percent}%` }}></div>
+                                  <div className="bg-emerald-50 h-full rounded-full transition-all duration-500" style={{ width: `${step1Percent}%` }}></div>
                                 </div>
                               </div>
 
@@ -1651,7 +1662,7 @@
                                   <span>{step2Percent}%</span>
                                 </div>
                                 <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                                  <div className="bg-amber-500 h-full rounded-full transition-all duration-500" style={{ width: `${step2Percent}%` }}></div>
+                                  <div className="bg-amber-50 h-full rounded-full transition-all duration-500" style={{ width: `${step2Percent}%` }}></div>
                                 </div>
                               </div>
 
@@ -1671,16 +1682,16 @@
                             <div className="bg-slate-900/40 p-2 rounded-xl flex flex-col gap-1.5">
                               <span className="text-[10px] text-slate-500 font-bold">🛠️ 원격 코스 강제 배정:</span>
                               <div className="flex gap-1.5 flex-wrap">
-                                <button onClick={() => warpStudent(student.id, 1, 'STUDY')} className="bg-emerald-950 text-emerald-400 border border-emerald-900 hover:bg-emerald-900 text-[9px] font-black px-2 py-1 rounded-lg">
+                                <button onClick={() => warpStudent(student.id, 1, 'STUDY')} className="bg-emerald-400 text-slate-900 font-black text-[9px] px-2 py-1 rounded-lg">
                                   📖 공부방(1단계)
                                 </button>
-                                <button onClick={() => warpStudent(student.id, 0, 'GAME')} className="bg-amber-950 text-amber-400 border border-amber-900 hover:bg-amber-900 text-[9px] font-black px-2 py-1 rounded-lg">
+                                <button onClick={() => warpStudent(student.id, 0, 'GAME')} className="bg-amber-400 text-slate-900 font-black text-[9px] px-2 py-1 rounded-lg">
                                   🎲 보드게임(2단계)
                                 </button>
-                                <button onClick={() => warpStudent(student.id, 0, 'WRITING')} className="bg-indigo-950 text-indigo-400 border border-indigo-900 hover:bg-indigo-900 text-[9px] font-black px-2 py-1 rounded-lg">
+                                <button onClick={() => warpStudent(student.id, 0, 'WRITING')} className="bg-indigo-400 text-white font-black text-[9px] px-2 py-1 rounded-lg">
                                   ✏️ 4선쓰기(3단계)
                                 </button>
-                                <button onClick={() => warpStudent(student.id, 28, 'FINISH_ALL')} className="bg-rose-950 text-rose-400 border border-rose-900 hover:bg-rose-900 text-[9px] font-black px-2 py-1 rounded-lg">
+                                <button onClick={() => warpStudent(student.id, 28, 'FINISH_ALL')} className="bg-rose-500 text-white font-black text-[9px] px-2 py-1 rounded-lg">
                                   🏆 즉시 수료
                                 </button>
                               </div>
@@ -2093,7 +2104,7 @@
                                       <path d="M 50,33 Q 57,36 64,48 Q 70,61 66,71 Q 61,79 50,79 Q 39,79 34,71 Q 30,61 36,48 Q 43,36 50,33 Z" fill="#e91e63" />
                                     </svg>
                                   ) : (
-                                    <span className="text-5xl sm:text-6xl md:text-7xl">{currentQuestion.question.visualEmoji}</span>
+                                    <span className="text-4xl sm:text-5xl md:text-6xl font-black bg-white/70 px-4 py-2 rounded-2xl border border-amber-200">{currentQuestion.question.visualEmoji}</span>
                                   )}
                                 </div>
                               </div>
@@ -2102,7 +2113,7 @@
 
                           {((currentQuestion.question.audioText && !currentQuestion.isAI) || (currentQuestion.isAI && currentQuestion.question.type === 'WRITING')) && (
                             <div className="bg-sky-50 rounded-2xl p-2.5 border border-sky-100 flex flex-col items-center justify-center">
-                              <span className="text-sky-900 font-black text-sm tracking-wide">
+                              <span className="text-sky-900 font-black text-xs sm:text-sm tracking-wide">
                                 {currentQuestion.isAI && currentQuestion.question.type === 'WRITING'
                                   ? `"${currentQuestion.question.textToDraw.toUpperCase()}"`
                                   : `"${currentQuestion.question.koreanQuestion}"`
@@ -2125,7 +2136,7 @@
                                 <div className="flex flex-col items-center gap-3">
                                   <FourLineNotebook text={currentQuestion.question.textToDraw} />
                                   <button 
-                                    onClick={() => { playSound('correct'); setCurrentQuestion(null); advanceTurnAfterAI(); }}
+                                    onClick={() => { playSound('correct'); advanceTurnAfterAI(); }}
                                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 rounded-xl transition shadow"
                                   >
                                     👍 AI 친구의 철자 확인 완료!
@@ -2170,7 +2181,7 @@
                                         <button
                                           key={opt}
                                           onClick={() => selectChoice(opt)}
-                                          className="bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 font-black text-emerald-800 px-4 py-2 rounded-xl text-xs sm:text-sm capitalize transition"
+                                          className="bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 font-black text-emerald-800 px-4 py-2.5 rounded-xl text-xs sm:text-sm capitalize transition"
                                         >
                                           {opt}
                                         </button>
